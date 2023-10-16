@@ -1,4 +1,4 @@
-## Leaplug Backend
+## Node Base Backend
 
 This is a base project which helps any node.js developer to setup a base for user/role/permission management.
 This is usually a first and difficult step for any startup and this project will get you up and running immediatately.

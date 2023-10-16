@@ -1,4 +1,3 @@
-var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -7,7 +6,7 @@ var cors = require("cors");
 require("dotenv").config();
 var baseRoutes = require("./routes/index");
 var authRoutes = require("./routes/auth");
-var authorizeMiddleware = require("./controllers/auth/authenticate");
+var authorizeMiddleware = require("./controllers/authenticating/authenticate");
 var session = require("express-session");
 var FileStore = require("session-file-store")(session);
 const env = process.env.NODE_ENV || "development";
@@ -44,7 +43,7 @@ if (env == "development") {
   app.use(
     session({
       secret: process.env.COOKIE_SECRET,
-      name: "node_base",
+      name: "role_base",
       // check compartible session stores here https://github.com/expressjs/session#compatible-session-stores
       store: new FileStore(fileStoreOptions),
       resave: true,
@@ -58,9 +57,9 @@ app.use(authorizeMiddleware.authenticate);
 app.use(authorizeMiddleware.authorize);
 app.use("/api/", baseRoutes);
 
-// catch 404 and forward to error handler
+// catch 404 and return
 app.use(function (req, res, next) {
-  next(createError(404));
+  res.status(404).end();
 });
 
 // error handler
@@ -70,8 +69,8 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
+  console.error(err);
   res.status(err.status || 500);
-  res.send(err);
 });
 
 app.listen(process.env.PORT || 10107);

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node src/app.js",
-    "start-r": "nodemon src/app.js",
+    "dev": "nodemon src/app.js",
     "test-dev": "jest",
     "test": "jest"
   },

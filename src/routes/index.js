@@ -21,10 +21,4 @@ router.delete("/permissions", deleteController.deletePermission);
 router.put("/roles", registeringController.putRole);
 router.put("/users", registeringController.putUser);
 
-// router.get("/categories/first", baseController.getFirstCategory);
-// router.post("/status", baseController.addStatus);
-// router.post("/categories", baseController.addCategory);
-// router.post("/feedback", baseController.addFeedBack);
-// router.post("/questions", baseController.addQuestion);
-
 module.exports = router;

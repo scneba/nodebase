@@ -29,7 +29,7 @@ if (env == "development") {
   app.use(
     session({
       secret: process.env.COOKIE_SECRET,
-      name: "role_base",
+      name: "node_base",
       resave: false,
       saveUninitialized: false,
       cookie: { maxAge: 25 * 60 * 60 * 1000000 },
@@ -44,7 +44,7 @@ if (env == "development") {
   app.use(
     session({
       secret: process.env.COOKIE_SECRET,
-      name: "role_base",
+      name: "node_base",
       // check compartible session stores here https://github.com/expressjs/session#compatible-session-stores
       store: new FileStore(fileStoreOptions),
       resave: true,

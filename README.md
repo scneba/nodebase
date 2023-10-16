@@ -99,12 +99,48 @@ CONN_ST=postgres://postgres:password@localhost:5432/nodebase
 **--migrations** All Sequelize migrations are added here. See the docs [here](n. \
 **--models** All database models for Sequelize
 **--routes** All routes contained in the repo.
-**--seeders** All Sequelize seeds see [here](https://sequelize.org/master/manual/migrations.html#running-seeds) for the docs. \
+**--seeders** All Sequelize seeds see [here]s(https://sequelize.org/master/manual/migrations.html#running-seeds) for the docs. \
 **--services** All access to external services are added here, cross platform requests. \
 **--utils** Any reusable javascript code \
 **--app.js** entry point of application. \
 **--migrate.js** service to run migrations when user first runs app. \
 **--storage** storage for sessions
+
+### Run Seeds and Migrations with Sequelize
+
+- cd into src and run the following command to create a sequelize config file
+
+```
+ npx sequelize init
+```
+
+This should only create config/config.yml file and fail to create model and migrations folders which already exist.
+
+Update the config/config.json file to reflect the database configurations
+
+```
+"development": {
+    "username": "postgres",
+    "password": "YOURPASSWORD",
+    "database": "nodebase",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+},
+```
+
+### Seeding
+
+Undo all seeds
+
+```
+npx sequelize-cli db:seed:undo:all
+```
+
+Seed Database
+
+```
+npx sequelize-cli db:seed:all
+```
 
 ### Testing
 
@@ -115,3 +151,18 @@ npm test -- --testPathPattern "registering/"
 ```
 
 This will run all tests in the registering/ path.
+
+### Postman
+
+Import the collection at /postman/role_base.postman_collection.json into postman.
+Update the domain variable in postman
+![image](./images/postman.jpg)
+
+- Start project with nodemon
+
+```
+npm run start-r
+```
+
+- Run postman collection and make sure all tests pass
+  ![image](./images/postman_all_tests.jpg)

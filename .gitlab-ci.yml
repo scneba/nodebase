@@ -1,0 +1,78 @@
+stages:
+  - test
+  - build
+  - deploy
+
+image: docker/compose
+services:
+  - docker:dind
+variables:
+  DOCKER_BUILDKIT: 1
+  DOCKER_TLS_CERTDIR: "" # https://about.gitlab.com/releases/2019/07/31/docker-in-docker-with-docker-19-dot-03/
+
+#build testing image
+test-in-docker:
+  stage: test
+  tags:
+    - rolebase
+  script:
+    - sudo -E docker build -t clasence/rolebase:base  --cache-from clasence/rolebase:base --target stage1 .
+    - sudo -E docker run --rm -e CI=true clasence/rolebase:base npm run test-dev
+
+# Build image and push to DockerHub
+.push-dockerhub:
+  tags:
+    - rolebase
+  before_script:
+    - sudo docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+  script:
+    - >
+      sudo -E docker build -t clasence/rolebase:$TAG 
+      --cache-from clasence/rolebase:base
+      --build-arg BUILDKIT_INLINE_CACHE=1  
+      --build-arg IS_TEST=$IS_TEST
+      --target stage1 .
+    - sudo -E docker-compose push $DCTAG
+
+push-docker-branchname:
+  stage: build
+  variables:
+    TAG: $CI_COMMIT_REF_SLUG
+    IS_TEST: 1
+    DCTAG: test
+  extends: .push-dockerhub
+  when: manual
+  allow_failure: false
+
+push-docker-latest:
+  stage: build
+  variables:
+    TAG: "latest"
+    IS_TEST: 0
+    DCTAG: prod
+  extends: .push-dockerhub
+
+deploy-test-server:
+  stage: deploy
+  tags:
+    - rolebase
+  environment:
+    name: rolebase-test
+    url: http://example.testserver.com
+  script:
+    - sudo -E docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+    - sudo -E TAG=$CI_COMMIT_REF_SLUG  docker-compose pull test
+    - sudo -E TAG=$CI_COMMIT_REF_SLUG  docker-compose up -d test
+
+deploy-prod-server:
+  stage: deploy
+  tags:
+    - rolebase
+  environment:
+    name: rolebase-production
+    url: http://example.productionserver.com
+  script:
+    - sudo -E docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+    - sudo -E TAG="latest" docker-compose pull prod
+    - sudo -E TAG="latest" docker-compose up -d prod
+  when: manual

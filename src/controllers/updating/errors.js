@@ -1,0 +1,11 @@
+exports.invalidUUID = "INVALID_UUID";
+exports.internalServerErr = "SERVER_ERROR";
+exports.idRequired = "ID_REQUIRED";
+exports.userNotExists = "USER_NOT-EXIST";
+exports.passwordError = "PASSWORD_ERROR";
+exports.roleNameExist = "ROLE_NAME_EXIST";
+exports.permissionNotFound = "PERMISSION_NOT_FOUND";
+exports.oneRoleRequired = "ONE_ROLE_REQUIRED";
+exports.emailExists = "EMAIL_EXISTS";
+exports.userNameExists = "USER_NAME_EXISTS";
+exports.roleNotExist = "ROLE_NOT_EXIST";

@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  test:
+    build:
+      context: .
+    container_name: rolebase-test
+    image: clasence/rolebase:${TAG}
+    volumes:
+      - test_storage:/usr/src/app/storage
+    environment:
+      - CONN_ST=${CONN_ST_TEST}
+      - TOKEN=${TOKEN_TEST}
+      - NODE_ENV=staging
+      - COOKIE_SECRET=${COOKIE_SECRET_TEST}
+    ports:
+      - "10101:10107"
+
+  prod:
+    build:
+      context: .
+    container_name: rolebase-prod
+    image: clasence/rolebase:latest
+    volumes:
+      - prod_storage:/usr/src/app/storage
+    environment:
+      - CONN_ST=${CONN_ST}
+      - TOKEN=${TOKEN}
+      - NODE_ENV=production
+      - COOKIE_SECRET=${COOKIE_SECRET}
+    ports:
+      - "10102:10107"
+volumes:
+  test_storage:
+  prod_storage:

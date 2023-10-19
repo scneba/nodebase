@@ -1,6 +1,6 @@
-## Node Base Backend
+## Node.js Base Backend
 
-This is a base project which helps any node.js developer to setup a base for user/role/permission management.
+This is a base project which helps any node.js developer or startup to setup a base for user/role/permission management, testing, dockerization and CI/CD.
 This is usually a first and difficult step for any startup and this project will get you up and running immediatately.
 
 ### Technologies and Resources
@@ -13,8 +13,8 @@ This is usually a first and difficult step for any startup and this project will
 
 ### Setup
 
-1. Download and install git from [here](https://git-scm.com/downloads). This should also install git bash which can be opeend from the windows start menu.
-2. Download and Install PgAdmin 4 from [here](https://www.pgadmin.org/download/pgadmin-4-windows/). This should come with postgresql and should automatically run after install on port 5432. Make sure to take note of your passwords, there should be a PgAdmin password and the default user password. After install, open git bash and run the following commands to check if postgres is running on same port
+1. Download and install git from [here](https://git-scm.com/downloads). This should also install git bash which can be opened from the windows start menu.
+2. Download and Install PgAdmin 4 from [here](https://www.pgadmin.org/download/pgadmin-4-windows/). This should come with postgresql and should automatically run after installation on port 5432. Make sure to take note of your passwords, there should be a PgAdmin password and the default user password. After install, open git bash and run the following commands to check if postgres is running on same port
 
 ```
 psql --version
@@ -80,7 +80,7 @@ npm install
 CONN_ST=postgres://postgres:password@localhost:5432/nodebase
 ```
 
-9. Run `npm run` on the root folder. This should run the migrations on the nodebase database.
+9. Run `npm run dev` on the root folder. This should run the migrations on the nodebase database.
 
 10. Install postman and create an account. Download from [here](https://www.postman.com/downloads/).
 
@@ -161,7 +161,7 @@ Update the domain variable in postman
 - Start project with nodemon
 
 ```
-npm run start-r
+npm run dev
 ```
 
 - Run postman collection and make sure all tests pass
